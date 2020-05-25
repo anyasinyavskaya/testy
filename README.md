@@ -59,9 +59,54 @@ module.exports = [
 ];    
 ```
 
+В ```params``` указываются параметры запроса.
+Результат может иметь два поля: ```status```, в котором указывается ожидаемый код состояния HTTP, и ```data```, в котором указывается ожидаемый JSON или другого типа объект возвращаемых данных. Например:
 
 
+```
+module.exports = [
+
+    'Отправка сообщения',
+    '/room/send?name=ch3&text=test',
+    {
+        method: 'POST',
+
+        result: {
+            data: {
+                type: 'json',
+                properties: {
+                    message: {
+                        value: "Сообщение отправлено",
+                        type: 'String'
+                    },
+                    result: {
+                        type: 'object',
+                        properties: {
+                            _id: {
+                                required: true
+                            },
+                            name: {
+                                required: true
+                            },
+                            text: {
+                                required: true,
+                                type: 'String'
+                            },
+                            sendBy: {
+                                required: true
+                            }
+
+                        }
+
+                    }
+                }
+            }
+        }
+
+    }
+```
 
 
+Тип ожидаемого объекта указывается в поле ```type```. Возможные типы: *array, json, string*. Если у возвращаемого объекта типа JSON имеются свои поля, они указываются в поле ```properties```. 
 
 
