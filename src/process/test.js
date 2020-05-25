@@ -12,11 +12,14 @@ const GET_METHOD = 'get';
 const POST_METHOD = 'post';
 const OBJECT = 'object';
 const ARRAY = 'array';
+const NUMBER = 'number';
 
 const TYPE_ERROR = 'type';
 const VALUE_ERROR = 'value';
 const SIZE_ERROR = 'size';
 const STATUS_ERROR = 'status';
+const MAX_ERROR = 'max';
+const MIN_ERROR = 'min';
 const STRUCTURE_ERROR = 'structure';
 
 let isResultJson = false;
@@ -91,6 +94,24 @@ function matchResults(result, status, test) {
 						errors.push(error);
 					}
 				}
+			}
+			if (data.maxValue){
+                if (assert.checkTypeByType(result, NUMBER)) {
+                    valid = result <= data.maxValue;
+                    if (!valid) {
+                        error = new AssertionError(data.maxValue, result, MAX_ERROR, '');
+                        errors.push(error);
+                    }
+                }
+			}
+			if (data.minValue){
+                if (assert.checkTypeByType(result, NUMBER)) {
+                    valid = result >= data.minValue;
+                    if (!valid) {
+                        error = new AssertionError(data.minValue, result, MIN_ERROR, '');
+                        errors.push(error);
+                    }
+                }
 			}
 
 		}
