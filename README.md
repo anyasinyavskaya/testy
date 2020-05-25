@@ -110,7 +110,7 @@ module.exports = [
 
     },
 
-    'get messages',
+    'Получение сообщений',
     '/room/getMessages',
 
     {
@@ -137,7 +137,7 @@ module.exports = [
 ```
 module.exports = [
 
-    'enter',
+    'Вход в чат',
     '/chat/enter?name=ch2',
 
     {
@@ -156,7 +156,7 @@ module.exports = [
 ```
 module.exports = [
 
-    'enter',
+    'Вход в чат',
     '/chat/enter?name=ch2',
 
     {
@@ -169,7 +169,7 @@ module.exports = [
         }
     },
 
-    'logout',
+    'Выход из аккаунта',
     '/room/logout',
     {
         method: 'GET',
