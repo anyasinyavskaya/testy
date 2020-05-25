@@ -26,7 +26,9 @@ module.exports = server;
 > В проекте **chatmodel** (https://github.com/anyasinyavskaya/chatmodel) уже созданы все необходимые файлы и папки, описанные выше
 
 Для запуска тестов из корня проекта с приложением вызвать: 
-```testy --config```
+```
+testy --config
+```
 
 Без указания ```--config``` будет принято значение по умолчанию:
 ```
@@ -35,7 +37,27 @@ module.exports = server;
 ```
 ### Примеры тестов
 
+Пример post-запроса. Первой строкой опционально указывается название теста, затем url запроса. 
+```
+module.exports = [
 
+    'Авторизация',
+    '/login',
+
+    {
+        method: 'POST',
+
+        params: {
+            username: 'anyasinyavskaya1',
+            password: '1999'
+        },
+
+        result: {
+            status: 302
+        }
+    }
+];    
+```
 
 
 
