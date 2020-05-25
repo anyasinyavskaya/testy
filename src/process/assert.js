@@ -25,6 +25,11 @@ function isString(actual) {
 	return !!actual && (typeof actual).toLowerCase() === STRING_TYPE;
 }
 
+function isArray(actual) {
+	return !!actual && (actual.constructor === Array ||
+		Object.prototype.toString.call(actual) === '[object Array]');
+}
+
 function isUrl(str) {
 	return str.startsWith('/') || /^http(s):\/\//.test(str);
 }
@@ -71,18 +76,18 @@ function checkTypeByType(actual, expectType) {
 
 function checkParams(actual, property, propertyValue) {
 	let errors = [];
-	let isOK = true;
+	let valid = true;
 	// проверка значения
 	if (propertyValue.value) {
-		isOK = _.isEqual(propertyValue.value, actual[property]);
-		if (!isOK) {
+		valid = _.isEqual(propertyValue.value, actual[property]);
+		if (!valid) {
 			errors.push(new AssertionError(propertyValue.value, actual[property], VALUE_ERROR, property));
 		}
 	}
 	// проверка типа
 	if (propertyValue.type) {
-		isOK = checkTypeByType(actual[property], propertyValue.type);
-		if (!isOK) {
+		valid = checkTypeByType(actual[property], propertyValue.type);
+		if (!valid) {
 			errors.push(new AssertionError(propertyValue.type, typeof actual[property],
 				TYPE_ERROR, property));
 		}
@@ -90,23 +95,34 @@ function checkParams(actual, property, propertyValue) {
 	// проверка диапазона
 	if (isNumber(actual[property])) {
 		if (propertyValue.maxValue) {
-			isOK = (actual[property] <= propertyValue.maxValue);
-			if (!isOK) {
+			valid = (actual[property] <= propertyValue.maxValue);
+			if (!valid) {
 				errors.push(new AssertionError(propertyValue.maxValue, actual[property],
 					MAX_ERROR, property));
 			}
 		}
 		if (propertyValue.minValue) {
-			isOK = (actual[property] >= propertyValue.minValue);
-			if (!isOK) errors.push(new AssertionError(propertyValue.minValue, actual[property],
+			valid = (actual[property] >= propertyValue.minValue);
+			if (!valid) errors.push(new AssertionError(propertyValue.minValue, actual[property],
 				MIN_ERROR, property))
 		}
 	}
-	return [isOK, errors]
+
+	// проверка размера массива
+	if (isArray(actual[property])){
+		if (propertyValue.size) {
+			valid = _.isEqual(actual[property].length, propertyValue.size);
+			if (!valid) {
+				errors.push(new AssertionError(propertyValue.size, actual[property].length,
+					SIZE_ERROR, property));
+			}
+		}
+	}
+	return [valid, errors]
 }
 
 function checkJSON(expect, actual) {
-	let isOK = true;
+	let valid = true;
 	let errors = [];
 	if (expect.properties) {
 		for (var property in expect.properties) {
@@ -114,11 +130,11 @@ function checkJSON(expect, actual) {
 			if (actual[property]) {
 				// проверка properties
 				if (propertyValue.properties) {
-					[isOK, propErrors] = checkJSON(propertyValue, actual[property]);
+					[valid, propErrors] = checkJSON(propertyValue, actual[property]);
 					errors = errors.concat(propErrors);
 				}
 				else {
-					[isOK, errorsParam] = checkParams(actual, property, propertyValue);
+					[valid, errorsParam] = checkParams(actual, property, propertyValue);
 					errors = errors.concat(errorsParam);
 				}
 			} else {
@@ -126,10 +142,10 @@ function checkJSON(expect, actual) {
 			}
 		}
 	} else {
-		[isOK, errorsParam] = checkParams(actual, expect, expect);
+		[valid, errorsParam] = checkParams(actual, expect, expect);
 		errors = errors.concat(errorsParam);
 	}
-	return [isOK, errors];
+	return [valid, errors];
 }
 
 module.exports = {
