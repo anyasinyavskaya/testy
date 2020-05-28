@@ -208,5 +208,21 @@ module.exports = [
     },
 ];
 
+### Результат
+
+```
+  chatmodel
+    ✓ (test1) login (327ms)
+    ✓ (test1) enter (203ms)
+    1) (test1) get messages
+    ✓ (test1) send message (188ms)
 
 
+  3 passing (1s)
+  1 failing
+
+  1) chatmodel
+       (test1) get messages:
+     TestError: Полученный тип  : "string"
+     Ожидаемый тип  : "array"
+```
