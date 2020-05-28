@@ -18,6 +18,7 @@ const UTF = 'utf-8';
 const TITLE = '{title}';
 const SERVER = '{server}';
 const CONFIG = `'{config}'`;
+const STAT = '{stat}';
 const COMMANDS = `'{commands}'`;
 const LODASH = `'lodash'`;
 const REQUEST = `'request'`;
@@ -48,7 +49,7 @@ function replaceNodeModules(content, modules, nodeModules) {
 	return content;
 }
 
-function replaceIndexFile(dir) {
+function replaceIndexFile(dir, statFlag) {
 	const file = dir + INDEX_FILE;
 	const serverDir = path.basename(server);
 	const title = serverDir.replace(/-/g, ' ');
@@ -57,6 +58,7 @@ function replaceIndexFile(dir) {
 	const newContent = content
 		.replace(TITLE, title)
 		.replace(SERVER, server)
+        .replace(STAT, statFlag)
 		.replace(CONFIG, JSON.stringify(config.server))
 		.replace(COMMANDS, JSON.stringify(config.commands));
 
@@ -71,19 +73,18 @@ function replaceTestFile(dir, nodeModules) {
 }
 
 module.exports = () => {
-	server = environment.build(server, temp);
-
+    let statFlag;
+	[mochaCommands, server] = environment.build(server, temp);
 	const nodeModules = getNodeModules(server);
 	const mocha = nodeModules + PATH_TO_MOCHA;
 	const app = path.basename(server);
 	const tempDir = temp + SLASH + app;
-
 	fse.copySync(source, tempDir);
 
-	replaceIndexFile(tempDir);
+	replaceIndexFile(tempDir, statFlag);
 	replaceTestFile(tempDir, nodeModules);
 
-	spawnSync('node', [mocha, tempDir], {stdio: "inherit"});
+	spawnSync('node', [mocha, tempDir, ...mochaCommands], {stdio: "inherit"});
 	fse.removeSync(tempDir);
 };
 

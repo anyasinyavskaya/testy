@@ -1,4 +1,4 @@
-const AssertionError = require("./assertionError.js");
+const AssertionError = require("./errors/assertionError.js");
 const _ = require('lodash');
 
 const STRING_TYPE = 'string';
@@ -7,6 +7,7 @@ const BOOL_TYPE = 'boolean';
 const ARRAY_TYPE = 'array';
 const OBJECT_TYPE = 'object';
 const NULL_TYPE = 'null';
+const FUNCTION_TYPE = 'function';
 
 const TYPE_ERROR = 'type';
 const VALUE_ERROR = 'value';
@@ -32,6 +33,10 @@ function isArray(actual) {
 
 function isUrl(str) {
 	return str.startsWith('/') || /^http(s):\/\//.test(str);
+}
+
+function isFunction(item) {
+    return typeof item === FUNCTION_TYPE;
 }
 
 function isStringWithObject(str) {
@@ -154,6 +159,8 @@ module.exports = {
 	isString,
 
 	isUrl,
+
+	isFunction,
 
 	isStringWithObject,
 

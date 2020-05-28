@@ -7,9 +7,8 @@ module.exports = {
 	},
 
 	commands: {
-		logs: false,
 		customConfig: null,
-		wait: 1000, // milliseconds
+		stat: false,
 	}
 };
 

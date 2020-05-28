@@ -5,6 +5,7 @@ const config = require('../config');
 const path = require('path');
 
 const CONFIG = '--config';
+const STAT = '--stat';
 const CONFIG_FILE = './config.js';
 const DOT = '.';
 const EQUAL = '=';
@@ -12,19 +13,26 @@ const NEWLINE = '\n';
 
 function setCommands(server) {
 	const commands = process.argv.slice(2);
-	let configFlag = false;
+	let configFlag = false, statFlag = false;
+	let mochaCommands = [];
 
 	commands.forEach(x => {
 		if (x) {
 			if (x.indexOf(CONFIG) >= 0) {
 				configFlag = x;
 			}
+			else if (x.indexOf(STAT) >= 0) {
+				statFlag = x;
+			}
 			else if (/^[./]/.test(x)) {
 				server = x;
 			}
+			else {
+				mochaCommands.push(x);
+			}
 		}
 	});
-	return [configFlag, server]
+	return [mochaCommands, configFlag, statFlag, server]
 }
 
 function setConfig(configFlag, server) {
@@ -38,6 +46,12 @@ function setConfig(configFlag, server) {
 			Object.assign(config.server, userConfig);
 		}
 	}
+}
+
+function setStat(statFlag) {
+    if (statFlag) {
+        config.commands.stat = statFlag.split(EQUAL)[1] || 7;
+    }
 }
 
 function setServer(server) {
@@ -59,14 +73,15 @@ function setServer(server) {
 
 module.exports = {
 	build: function (server, tempPath) {
-		let configFlag;
-		[configFlag, server] = setCommands(server);
+		let configFlag, statFlag;
+		[mochaCommands, configFlag, statFlag, server] = setCommands(server);
 		server = setServer(server);
 		setConfig(configFlag, server);
+		setStat(statFlag);
 		if (!fse.pathExistsSync(tempPath)) {
 			fs.mkdirSync(tempPath)
 		}
-		return server;
+		return [mochaCommands, server];
 	},
 
 };

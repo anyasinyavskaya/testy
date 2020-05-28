@@ -13,7 +13,6 @@ class AssertionError {
 		this.actual = actual;
 		this.type = type;
 		this.param = param;
-		this.name = this.constructor.name;
 		this.messages = "";
 
 		switch (this.type) {
@@ -39,13 +38,13 @@ class AssertionError {
 			}
 			case MAX_ERROR: {
 				this.messages+= 'Полученное значение ' + this.param + ' : ' + JSON.stringify(this.actual, null, 4) + '\n';
-				this.messages+= 'Ожидаемое значение ' + this.param + ' не должно превышать:' +
+				this.messages+= '     Ожидаемое значение ' + this.param + ' не должно превышать: ' +
 					JSON.stringify(this.expected, null, 4) + '\n';
 				break;
 			}
 			case MIN_ERROR: {
 				this.messages+= 'Полученное значение ' + this.param + ' : ' + JSON.stringify(this.actual, null, 4) + '\n';
-				this.messages+= '     Ожидаемое значение ' + this.param + ' не должно быть меньше:' +
+				this.messages+= '     Ожидаемое значение ' + this.param + ' не должно быть меньше: ' +
 					JSON.stringify(this.expected, null, 4) + '\n';
 				break;
 			}
