@@ -2,21 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6dd3ff8e-edcd-40b6-a342-d316e8dbb21b" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/process/errors/grammarError.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/process/statistics/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/process/unit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/environment/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/environment/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/process/assert.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/process/assert.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/process/assertionError.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/process/errors/assertionError.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/process/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/process/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/process/parse.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/process/parse.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/process/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/process/test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/process/testError.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/process/errors/testError.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/../testor-master/.tmp/" />
     <ignored path="$PROJECT_DIR$/../testor-master/temp/" />
@@ -57,11 +45,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="test.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/process/test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-5051">
-              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+            <state relative-caret-position="-4955">
+              <caret line="13" column="16" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="699">
+                <caret line="241" lean-forward="true" selection-start-line="241" selection-end-line="241" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="384">
+              <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -71,15 +80,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="568">
               <caret line="83" column="31" selection-start-line="83" selection-start-column="31" selection-end-line="83" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="testError.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/process/errors/testError.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="6" selection-start-column="6" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -107,15 +107,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1848">
               <caret line="77" column="28" lean-forward="true" selection-start-line="77" selection-start-column="28" selection-end-line="77" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/process/statistics/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="98">
-              <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -159,8 +150,8 @@
       <find>console.log</find>
       <find>console.log(</find>
       <find>console.lo</find>
-      <find>gramm</find>
       <find>wait</find>
+      <find>gramm</find>
     </findStrings>
     <replaceStrings>
       <replace>Commands</replace>
@@ -216,6 +207,7 @@
         <option value="$PROJECT_DIR$/src/process/index.js" />
         <option value="$PROJECT_DIR$/src/config/index.js" />
         <option value="$PROJECT_DIR$/src/process/test.js" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -299,6 +291,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/process/errors" />
       <recent name="$PROJECT_DIR$/src/process/statistics" />
       <recent name="$PROJECT_DIR$/src/process" />
       <recent name="$PROJECT_DIR$/src/process/error" />
@@ -338,15 +331,16 @@
       <workItem from="1590564310049" duration="12085000" />
       <workItem from="1590586706851" duration="24120000" />
       <workItem from="1590644883306" duration="6377000" />
-      <workItem from="1590660680174" duration="8635000" />
+      <workItem from="1590660680174" duration="8892000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="220720000" />
+    <option name="totallyTimeSpent" value="220977000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="81" y="-5" width="1839" height="1085" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14467146" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -448,16 +442,6 @@
     <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="699">
-            <caret line="188" selection-start-line="188" selection-end-line="188" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/process/errors/assertionError.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1104">
@@ -466,13 +450,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package-lock.json" />
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/process/performance.js" />
     <entry file="file://$PROJECT_DIR$/src/process/assert.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -553,8 +530,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/process/test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5051">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        <state relative-caret-position="-4955">
+          <caret line="13" column="16" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="699">
+            <caret line="241" lean-forward="true" selection-start-line="241" selection-end-line="241" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
