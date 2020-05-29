@@ -32,6 +32,7 @@ function isArray(actual) {
 		Object.prototype.toString.call(actual) === '[object Array]');
 }
 
+
 function isError(obj){
     return Object.prototype.toString.call(obj) === "[object Error]";
 }
@@ -40,8 +41,8 @@ function isUrl(str) {
 	return str.startsWith('/') || /^http(s):\/\//.test(str);
 }
 
-function isFunction(item) {
-    return typeof item === FUNCTION_TYPE;
+function isFunction(actual) {
+    return !!actual && typeof actual === FUNCTION_TYPE;
 }
 
 function isStringWithObject(str) {
@@ -169,10 +170,10 @@ function checkErrorType(actual, expect) {
 }
 
 function checkErrorMsg(actual, expect) {
-    let comparisonString = typeof actual === 'string' ? actual : actual.message;
+    let comparisonString = typeof actual === STRING_TYPE ? actual : actual.message;
     if (expect instanceof RegExp) {
         return expect.test(comparisonString);
-    } else if (typeof expect === 'string') {
+    } else if (typeof expect === STRING_TYPE) {
         return comparisonString.indexOf(expect) !== -1;
     }
 

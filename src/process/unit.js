@@ -10,6 +10,7 @@ const ARRAY = 'array';
 const NUMBER = 'number';
 const ERROR = 'error';
 const JSON = 'json';
+const STRING = 'string';
 
 const TYPE_ERROR = 'type';
 const VALUE_ERROR = 'value';
@@ -36,7 +37,7 @@ function matchResults(result, test) {
     if (expect.data) {
         const data = expect.data;
 
-        if (!data.type && !data.value && !data.size && !data.maxValue && !data.minValue && !data.error)
+        if (!data.type && !data.value && !data.size && !data.maxValue && !data.minValue)
             return [[], [new GrammarError("data: type или data: value или data: size и т.д."), STRUCTURE_ERROR]];
 
         if (data.type) {
@@ -93,13 +94,13 @@ function matchResults(result, test) {
                 }
             }
         }
-
-        if (data.error) {
+    } else if (expect.error){
+        if (expect.error) {
             function getType(actual) {
                 let type = actual;
                 if (actual instanceof Error) {
                     type = getFunctionName(actual.constructor);
-                } else if (typeof actual === 'function') {
+                } else if (assert.isFunction(actual)) {
                     type = getFunctionName(actual);
                     if (type === '') {
                         let newConstructorName = getFunctionName(new actual());
@@ -108,40 +109,40 @@ function matchResults(result, test) {
                 }
                 return type;
             }
-            if (!data[ERROR].type && !data[ERROR].msg) return [[], [new GrammarError('error: type или error: msg'), STRUCTURE_ERROR]];
+            if (!expect[ERROR].type && !expect[ERROR].msg) return [[], [new GrammarError('error: type или error: msg'), STRUCTURE_ERROR]];
 
             if (!assert.isError(result)) {
-                error = new AssertionError(data[ERROR].type? getType(data[ERROR].type):data[ERROR].msg, result, ERROR_ERROR, '');
+                error = new AssertionError(expect[ERROR].type? getType(expect[ERROR].type):expect[ERROR].msg, result, ERROR_ERROR, '');
                 testErrors.push(error);
             }
             else {
-                if (data[ERROR].type) {
-                    valid = assert.checkErrorType(result, data[ERROR].type);
+                if (expect[ERROR].type) {
+                    valid = assert.checkErrorType(result, expect[ERROR].type);
                     if (!valid) {
-                        error = new AssertionError(getType(data[ERROR].type), getType(result), ERROR_TYPE_ERROR, '');
+                        error = new AssertionError(getType(expect[ERROR].type), getType(result), ERROR_TYPE_ERROR, '');
                         testErrors.push(error);
                     }
                 }
-                if (data[ERROR].msg){
-                    valid = assert.checkErrorMsg(result, data[ERROR].msg);
+                if (expect[ERROR].msg){
+                    valid = assert.checkErrorMsg(result, expect[ERROR].msg);
                     if (!valid) {
                         function getMessage(actual) {
                             let msg = '';
                             if (actual && actual.message) {
                                 msg = actual.message;
-                            } else if (typeof actual === 'string') {
+                            } else if (assert.isString(actual)) {
                                 msg = actual;
                             }
 
                             return msg;
                         }
-                        error = new AssertionError(data[ERROR].msg, getMessage(result), ERROR_MSG_ERROR, '');
+                        error = new AssertionError(expect[ERROR].msg, getMessage(result), ERROR_MSG_ERROR, '');
                         testErrors.push(error);
                     }
                 }
             }
         }
-    } else return [[], [new GrammarError('result: data', STRUCTURE_ERROR)]];
+    } else return [[], [new GrammarError('result: data или result:error', STRUCTURE_ERROR)]];
     return [testErrors, GrammarErrors];
 }
 
