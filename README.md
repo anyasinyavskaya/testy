@@ -37,6 +37,31 @@ testy --config
 ```
 ### Примеры тестов
 
+Пример теста для функции
+```
+let userController = require("../src/conrollers/UserController");
+
+module.exports = [
+    // Название теста
+    'Проверка пароля на сложность',
+    // Функция
+    userController.isStrongPwd,
+    {
+        // аргументы
+        params: {
+            password: '1abYcYY#'
+        },
+        
+        // ожидаемый результат
+        result: {
+            data: {
+                value: [true, 'Ок']
+            }
+        }
+    }
+]
+```
+
 Пример post-запроса. Первой строкой опционально указывается название теста, затем url запроса. 
 ```
 module.exports = [

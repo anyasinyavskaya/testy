@@ -1,18 +1,24 @@
 const assert = require('./assert');
 const AssertionError = require("./errors/assertionError.js");
 const GrammarError = require("./errors/grammarError.js");
+const getFunctionName = require('get-func-name');
 const _ = require('lodash');
 const {performance} = require('perf_hooks');
 
 const OBJECT = 'object';
 const ARRAY = 'array';
 const NUMBER = 'number';
+const ERROR = 'error';
+const JSON = 'json';
 
 const TYPE_ERROR = 'type';
 const VALUE_ERROR = 'value';
 const SIZE_ERROR = 'size';
 const MAX_ERROR = 'max';
 const MIN_ERROR = 'min';
+const ERROR_ERROR = 'error';
+const ERROR_TYPE_ERROR = 'error_type';
+const ERROR_MSG_ERROR = 'error_msg';
 const STRUCTURE_ERROR = 'structure';
 const ARGUMENTS_ERROR = 'arguments';
 
@@ -29,8 +35,12 @@ function matchResults(result, test) {
 
     if (expect.data) {
         const data = expect.data;
+
+        if (!data.type && !data.value && !data.size && !data.maxValue && !data.minValue && !data.error)
+            return [[], [new GrammarError("data: type или data: value или data: size и т.д."), STRUCTURE_ERROR]];
+
         if (data.type) {
-            if (data.type === 'json') {
+            if (data.type === JSON) {
                 if (isResultJson && assert.checkTypeByType(result, OBJECT)) {
                     [valid, errorsJSON] = assert.checkJSON(data, result);
                     testErrors = testErrors.concat(errorsJSON);
@@ -83,7 +93,55 @@ function matchResults(result, test) {
                 }
             }
         }
-    }
+
+        if (data.error) {
+            function getType(actual) {
+                let type = actual;
+                if (actual instanceof Error) {
+                    type = getFunctionName(actual.constructor);
+                } else if (typeof actual === 'function') {
+                    type = getFunctionName(actual);
+                    if (type === '') {
+                        let newConstructorName = getFunctionName(new actual());
+                        type = newConstructorName || type;
+                    }
+                }
+                return type;
+            }
+            if (!data[ERROR].type && !data[ERROR].msg) return [[], [new GrammarError('error: type или error: msg'), STRUCTURE_ERROR]];
+
+            if (!assert.isError(result)) {
+                error = new AssertionError(data[ERROR].type? getType(data[ERROR].type):data[ERROR].msg, result, ERROR_ERROR, '');
+                testErrors.push(error);
+            }
+            else {
+                if (data[ERROR].type) {
+                    valid = assert.checkErrorType(result, data[ERROR].type);
+                    if (!valid) {
+                        error = new AssertionError(getType(data[ERROR].type), getType(result), ERROR_TYPE_ERROR, '');
+                        testErrors.push(error);
+                    }
+                }
+                if (data[ERROR].msg){
+                    valid = assert.checkErrorMsg(result, data[ERROR].msg);
+                    if (!valid) {
+                        function getMessage(actual) {
+                            let msg = '';
+                            if (actual && actual.message) {
+                                msg = actual.message;
+                            } else if (typeof actual === 'string') {
+                                msg = actual;
+                            }
+
+                            return msg;
+                        }
+                        error = new AssertionError(data[ERROR].msg, getMessage(result), ERROR_MSG_ERROR, '');
+                        testErrors.push(error);
+                    }
+                }
+            }
+        }
+    } else return [[], [new GrammarError('result: data', STRUCTURE_ERROR)]];
     return [testErrors, GrammarErrors];
 }
 
@@ -106,7 +164,11 @@ function parseTest(test) {
         }
     }
     let start = performance.now();
-    res = funcCall(...args);
+    try {
+        res = funcCall(...args);
+    } catch (e) {
+        res = e;
+    }
     let end = performance.now();
     return [null, res, end - start];
 }

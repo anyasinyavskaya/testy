@@ -5,6 +5,9 @@ const STATUS_ERROR = 'status';
 const STRUCTURE_ERROR = 'structure';
 const MAX_ERROR = 'max';
 const MIN_ERROR = 'min';
+const ERROR_ERROR = 'error';
+const ERROR_TYPE_ERROR = 'error_type';
+const ERROR_MSG_ERROR = 'error_msg';
 
 class AssertionError {
 
@@ -52,6 +55,25 @@ class AssertionError {
 			case STRUCTURE_ERROR: {
 				this.messages+= 'Ожидалось наличие ' + this.param + ' : ' + JSON.stringify(this.expected, null, 4) + '\n';
 				break;
+			}
+
+			case ERROR_ERROR: {
+                this.messages+= 'Полученное значение ' + this.param + ' : ' + JSON.stringify(this.actual, null, 4) + '\n';
+                this.messages+= '     Ожидалась ошибка : ' +
+                    JSON.stringify(this.expected, null, 4) + '\n';
+                break;
+			}
+			case ERROR_TYPE_ERROR: {
+                this.messages+= 'Полученный тип ошибки : ' + JSON.stringify(this.actual, null, 4) + '\n';
+                this.messages+= '     Ожидался тип ошибки : ' +
+                    JSON.stringify(this.expected, null, 4) + '\n';
+                break;
+			}
+			case ERROR_MSG_ERROR: {
+                this.messages+= 'Полученное сообщение ошибки : ' + JSON.stringify(this.actual, null, 4) + '\n';
+                this.messages+= '     Ожидалось сообщение : ' +
+                    JSON.stringify(this.expected, null, 4) + '\n';
+                break;
 			}
 
 		}

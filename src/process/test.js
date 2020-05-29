@@ -119,7 +119,7 @@ function matchResults(result, status, test) {
                 }
             }
         }
-    }
+    } else return [[], [new GrammarError('result: data или result: status', STRUCTURE_ERROR)]];
 
     return [testErrors, GrammarErrors];
 }

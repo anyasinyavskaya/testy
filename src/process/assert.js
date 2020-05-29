@@ -7,6 +7,7 @@ const BOOL_TYPE = 'boolean';
 const ARRAY_TYPE = 'array';
 const OBJECT_TYPE = 'object';
 const NULL_TYPE = 'null';
+const ERROR_ERROR = 'error';
 const FUNCTION_TYPE = 'function';
 
 const TYPE_ERROR = 'type';
@@ -29,6 +30,10 @@ function isString(actual) {
 function isArray(actual) {
 	return !!actual && (actual.constructor === Array ||
 		Object.prototype.toString.call(actual) === '[object Array]');
+}
+
+function isError(obj){
+    return Object.prototype.toString.call(obj) === "[object Error]";
 }
 
 function isUrl(str) {
@@ -153,10 +158,33 @@ function checkJSON(expect, actual) {
 	return [valid, errors];
 }
 
+function checkErrorType(actual, expect) {
+    if (expect instanceof Error) {
+        return actual.constructor === expect.constructor || actual instanceof expect.constructor;
+    } else if (expect.prototype instanceof Error || expect === Error) {
+        return actual.constructor === expect || actual instanceof expect;
+    }
+
+    return false;
+}
+
+function checkErrorMsg(actual, expect) {
+    let comparisonString = typeof actual === 'string' ? actual : actual.message;
+    if (expect instanceof RegExp) {
+        return expect.test(comparisonString);
+    } else if (typeof expect === 'string') {
+        return comparisonString.indexOf(expect) !== -1;
+    }
+
+    return false;
+}
+
 module.exports = {
 	isNumber,
 
 	isString,
+
+	isError,
 
 	isUrl,
 
@@ -167,6 +195,10 @@ module.exports = {
 	checkTypeByType,
 
 	checkJSON,
+
+	checkErrorMsg,
+
+	checkErrorType
 
 };
 
