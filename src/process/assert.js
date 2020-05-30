@@ -86,21 +86,21 @@ function checkTypeByType(actual, expectType) {
 }
 
 function checkParams(actual, property, propertyValue) {
-	let errors = [];
+	//let errors = [];
 	let valid = true;
 	// проверка значения
 	if (propertyValue.value) {
 		valid = _.isEqual(propertyValue.value, actual[property]);
 		if (!valid) {
-			errors.push(new AssertionError(propertyValue.value, actual[property], VALUE_ERROR, property));
+			return [valid, new AssertionError(propertyValue.value, actual[property], VALUE_ERROR, property)];
 		}
 	}
 	// проверка типа
 	if (propertyValue.type) {
 		valid = checkTypeByType(actual[property], propertyValue.type);
 		if (!valid) {
-			errors.push(new AssertionError(propertyValue.type, typeof actual[property],
-				TYPE_ERROR, property));
+			return [valid, (new AssertionError(propertyValue.type, typeof actual[property],
+				TYPE_ERROR, property))];
 		}
 	}
 	// проверка диапазона
@@ -108,14 +108,14 @@ function checkParams(actual, property, propertyValue) {
 		if (propertyValue.maxValue) {
 			valid = (actual[property] <= propertyValue.maxValue);
 			if (!valid) {
-				errors.push(new AssertionError(propertyValue.maxValue, actual[property],
-					MAX_ERROR, property));
+				return [valid, (new AssertionError(propertyValue.maxValue, actual[property],
+					MAX_ERROR, property))];
 			}
 		}
 		if (propertyValue.minValue) {
 			valid = (actual[property] >= propertyValue.minValue);
-			if (!valid) errors.push(new AssertionError(propertyValue.minValue, actual[property],
-				MIN_ERROR, property))
+			if (!valid) return [valid, (new AssertionError(propertyValue.minValue, actual[property],
+				MIN_ERROR, property))]
 		}
 	}
 
@@ -124,39 +124,38 @@ function checkParams(actual, property, propertyValue) {
 		if (propertyValue.size) {
 			valid = _.isEqual(actual[property].length, propertyValue.size);
 			if (!valid) {
-				errors.push(new AssertionError(propertyValue.size, actual[property].length,
-					SIZE_ERROR, property));
+				return [valid, (new AssertionError(propertyValue.size, actual[property].length,
+					SIZE_ERROR, property))];
 			}
 		}
 	}
-	return [valid, errors]
+	return [valid, false]
 }
 
 function checkJSON(expect, actual) {
 	let valid = true;
-	let errors = [];
 	if (expect.properties) {
 		for (var property in expect.properties) {
 			let propertyValue = expect.properties[property];
 			if (actual[property]) {
 				// проверка properties
 				if (propertyValue.properties) {
-					[valid, propErrors] = checkJSON(propertyValue, actual[property]);
-					errors = errors.concat(propErrors);
+					[valid, propError] = checkJSON(propertyValue, actual[property]);
+					if (propError) return [false, propError];
 				}
 				else {
-					[valid, errorsParam] = checkParams(actual, property, propertyValue);
-					errors = errors.concat(errorsParam);
+					[valid, errorParam] = checkParams(actual, property, propertyValue);
+                    if (errorParam) return [false, errorParam];
 				}
 			} else {
-				errors.push(new AssertionError(null, null, STRUCTURE_ERROR, property));
+				return [valid, (new AssertionError(null, null, STRUCTURE_ERROR, property))];
 			}
 		}
 	} else {
-		[valid, errorsParam] = checkParams(actual, expect, expect);
-		errors = errors.concat(errorsParam);
+		[valid, errorParam] = checkParams(actual, expect, expect);
+		if (errorParam) return [false, errorParam];
 	}
-	return [valid, errors];
+	return [valid, false];
 }
 
 function checkErrorType(actual, expect) {

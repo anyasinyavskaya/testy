@@ -44,24 +44,15 @@ describe(title, () => {
         const unitTests = unitTestDict[filename];
         unitTests.forEach(thisTest => {
             it('(' + filename + ') ' + thisTest.title, async () => {
-                const [testErrors, GrammarErrors] = await unit(thisTest, filename, unitTestDict);
-                if (GrammarErrors.length === 0) {
-                    testErrors.forEach(e => {
-                        if (e !== null) {
-                            throw new TestError(e.getMessages());
-                        }
-                    });
-                } else {
-                    GrammarErrors.forEach(e => {
-                        if (e !== null) {
-                            throw new TestError(e.getMessages());
-                        }
-                    })
+                const [testError, grammarError] = await unit(thisTest, filename, unitTestDict);
+                if (grammarError) {
+                    throw new TestError("TestSyntaxError", grammarError.getMessages());
+
+                } else if (testError) {
+                    throw new TestError("", testError.getMessages());
+
                 }
             });
-
-            if (commands.stat) {
-            }
         });
     }
     let serverConnectedFlag = true;
@@ -70,24 +61,18 @@ describe(title, () => {
         const integrationTests = integrationTestDict[filename];
         integrationTests.forEach(thisTest => {
             it('(' + filename + ') ' + thisTest.title, async () => {
-                const [error, testErrors, GrammarErrors, time] = await test(thisTest, filename, integrationTestDict);
+                const [error, testError, grammarError, time] = await test(thisTest, filename, integrationTestDict);
                 if (error) {
                     serverConnectedFlag = false;
                     throw error
                 }
-                if (error !== null) throw TestError('Получен пустой response');
-                if (GrammarErrors.length === 0) {
-                    testErrors.forEach(e => {
-                        if (e !== null) {
-                            throw new TestError(e.getMessages());
-                        }
-                    });
-                } else {
-                    GrammarErrors.forEach(e => {
-                        if (e !== null) {
-                            throw new TestError(e.getMessages());
-                        }
-                    })
+                if (error !== null) throw new TestError('Получен пустой response');
+                if (grammarError) {
+                    throw new TestError("TestSyntaxError", grammarError.getMessages());
+
+                } else if (testError) {
+                    throw new TestError("", testError.getMessages());
+
                 }
 
             });

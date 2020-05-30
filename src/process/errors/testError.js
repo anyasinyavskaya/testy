@@ -1,7 +1,7 @@
 class TestError extends Error {
-	constructor(message) {
+	constructor(name, message) {
 		super(message);
-		this.name = this.constructor.name;
+		this.name = name === ""? this.constructor.name : name;
 	}
 }
 module.exports = TestError;

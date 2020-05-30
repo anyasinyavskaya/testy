@@ -1,6 +1,7 @@
 const STRUCTURE_ERROR = 'structure';
 const ARGUMENTS_ERROR = 'arguments';
 const DECLARE_ERROR = 'declaration';
+const TYPEMISMATCH_ERROR = 'mismatch';
 
 
 class GrammarError {
@@ -20,6 +21,10 @@ class GrammarError {
             }
             case ARGUMENTS_ERROR: {
                 this.messages += 'Параметры не соответствуют аргументам функции\n';
+                break;
+            }
+            case TYPEMISMATCH_ERROR:{
+                this.messages += 'Поле ' + this.expected + '\n';
                 break;
             }
         }

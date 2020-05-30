@@ -14,7 +14,7 @@ const GET_METHOD = 'get';
 const POST_METHOD = 'post';
 const OBJECT = 'object';
 const ARRAY = 'array';
-const JSON = 'json';
+const _JSON = 'json';
 const NUMBER = 'number';
 
 const TYPE_ERROR = 'type';
@@ -25,6 +25,7 @@ const MAX_ERROR = 'max';
 const MIN_ERROR = 'min';
 const STRUCTURE_ERROR = 'structure';
 const ARGUMENTS_ERROR = 'arguments';
+const TYPEMISMATCH_ERROR = 'mismatch';
 
 let isResultJson = false;
 let allTestsDict = {};
@@ -44,37 +45,31 @@ function requestType(api) {
 function matchResults(result, status, test) {
     const expect = test.result;
     let valid = true;
-    let error = null;
-    let testErrors = [];
-    let GrammarErrors = [];
 
     if (expect.status || expect.data) {
         if (expect.status) {
             try {
                 valid = _.isEqual(status, expect.status);
                 if (!valid) {
-                    error = new AssertionError(expect.status, status, STATUS_ERROR, '');
-                    testErrors.push(error);
+                    return [new AssertionError(expect.status, status, STATUS_ERROR, ''),false];
                 }
 
             } catch (e) {
-                console.log(e);
-                return false;
+                return [e, false];
             }
         }
         if (expect.data) {
             const data = expect.data;
             if (data.type) {
-                if (data.type === JSON) {
+                if (data.type === _JSON) {
                     if (isResultJson && assert.checkTypeByType(result, OBJECT)) {
                         [valid, errorsJSON] = assert.checkJSON(data, result);
-                        testErrors = testErrors.concat(errorsJSON);
+                        if (errorsJSON) return [errorsJSON, false];
                     }
                 } else {
                     valid = assert.checkTypeByType(result, data.type);
                     if (!valid) {
-                        error = new AssertionError(data.type, typeof result, TYPE_ERROR, '');
-                        testErrors.push(error);
+                        return [new AssertionError(data.type, typeof result, TYPE_ERROR, ''), false];
                     }
                 }
             }
@@ -83,45 +78,40 @@ function matchResults(result, status, test) {
                 try {
                     valid = _.isEqual(result, data.value);
                     if (!valid) {
-                        error = new AssertionError(data.value, result, VALUE_ERROR, '');
-                        testErrors.push(error);
+                        return[AssertionError(data.value, result, VALUE_ERROR, ''), false];
                     }
                 } catch (e) {
-                    console.log(e);
-                    return false;
+                    return [e, false];
                 }
             }
             if (data.size) {
                 if (assert.checkTypeByType(result, ARRAY)) {
                     valid = _.isEqual(result.length, data.size);
                     if (!valid) {
-                        error = new AssertionError(data.size, result.length, SIZE_ERROR, '');
-                        testErrors.push(error);
-                    }
+                        return [new AssertionError(data.size, result.length, SIZE_ERROR, ''), false];
+                    } else return [new AssertionError(ARRAY, typeof result, TYPE_ERROR, ''), false];
                 }
             }
             if (data.maxValue) {
                 if (assert.checkTypeByType(result, NUMBER)) {
                     valid = result <= data.maxValue;
                     if (!valid) {
-                        error = new AssertionError(data.maxValue, result, MAX_ERROR, '');
-                        testErrors.push(error);
+                        return [new AssertionError(data.maxValue, result, MAX_ERROR, ''), false];
                     }
-                }
+                } else return [new AssertionError(NUMBER, typeof result, TYPE_ERROR, ''), false];
             }
             if (data.minValue) {
                 if (assert.checkTypeByType(result, NUMBER)) {
                     valid = result >= data.minValue;
                     if (!valid) {
-                        error = new AssertionError(data.minValue, result, MIN_ERROR, '');
-                        testErrors.push(error);
+                        return [new AssertionError(data.minValue, result, MIN_ERROR, ''), false];
                     }
-                }
+                } else return [new AssertionError(NUMBER, typeof result, TYPE_ERROR, ''), false];
             }
         }
-    } else return [[], [new GrammarError('result: data или result: status', STRUCTURE_ERROR)]];
+    } else return [false, [new GrammarError('result: data или result: status', STRUCTURE_ERROR)]];
 
-    return [testErrors, GrammarErrors];
+    return [false, false];
 }
 
 function getRes(str) {
@@ -230,9 +220,9 @@ module.exports = async (test, filename, testDict) => {
             let time = end - start;
             let status;
             if (error) {
-                return resolve([error, [], [], 0]);
+                return resolve([error, false, false, 0]);
             }
-            if (!body) return resolve(false, [], [], 0);
+            if (!body) return resolve(false, false, false, 0);
 
             if (response) status = response.statusCode;
 
@@ -241,8 +231,8 @@ module.exports = async (test, filename, testDict) => {
             if (after) {
                 await goUrls(after);
             }
-            const [testErrors, GrammarErrors] = matchResults(result, status, test);
-            resolve([null, testErrors, GrammarErrors, time]);
+            const [testError, GrammarError] = matchResults(result, status, test);
+            resolve([null, testError, GrammarError, time]);
         });
     })
 };
