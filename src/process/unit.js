@@ -44,7 +44,7 @@ function matchResults(result, test) {
             } else {
                 valid = assert.checkTypeByType(result, data.type);
                 if (!valid) {
-                    return[new AssertionError(data.type, typeof result, TYPE_ERROR, ''), false];
+                    return [new AssertionError(data.type, typeof result, TYPE_ERROR, ''), false];
                 }
             }
         }
@@ -60,7 +60,7 @@ function matchResults(result, test) {
             }
         }
         if (data.size) {
-            if (assert.checkTypeByType(result, ARRAY)) {
+            if (assert.isArray(result)) {
                 valid = _.isEqual(result.length, data.size);
                 if (!valid) {
                     return [new AssertionError(data.size, result.length, SIZE_ERROR, ''), false];
@@ -68,7 +68,7 @@ function matchResults(result, test) {
             } else return [new AssertionError(ARRAY, typeof result, TYPE_ERROR, ''), false];
         }
         if (data.maxValue) {
-            if (assert.checkTypeByType(result, NUMBER)) {
+            if (assert.isNumber(result)) {
                 valid = result <= data.maxValue;
                 if (!valid) {
                     return [new AssertionError(data.maxValue, result, MAX_ERROR, ''), false];
@@ -76,14 +76,14 @@ function matchResults(result, test) {
             } else return [new AssertionError(NUMBER, typeof result, TYPE_ERROR, ''), false];
         }
         if (data.minValue) {
-            if (assert.checkTypeByType(result, NUMBER)) {
+            if (assert.isNumber(result)) {
                 valid = result >= data.minValue;
                 if (!valid) {
                     return [new AssertionError(data.minValue, result, MIN_ERROR, ''), false];
                 }
             } else return [new AssertionError(NUMBER, typeof result, TYPE_ERROR, ''), false];
         }
-    } else if (expect.error){
+    } else if (expect.error) {
         if (expect.error) {
             function getType(actual) {
                 let type = actual;
@@ -98,12 +98,13 @@ function matchResults(result, test) {
                 }
                 return type;
             }
+
             if (!expect[ERROR].type && !expect[ERROR].msg)
                 return [false, new GrammarError('error: type или error: msg', STRUCTURE_ERROR)];
 
             if (!assert.isError(result)) {
-                return [new AssertionError(expect[ERROR].type?
-                    getType(expect[ERROR].type):expect[ERROR].msg, result, ERROR_ERROR, ''), false];
+                return [new AssertionError(expect[ERROR].type ?
+                    getType(expect[ERROR].type) : expect[ERROR].msg, result, ERROR_ERROR, ''), false];
             }
             else {
                 if (expect[ERROR].type) {
@@ -112,7 +113,7 @@ function matchResults(result, test) {
                         return [new AssertionError(getType(expect[ERROR].type), getType(result), ERROR_TYPE_ERROR, ''), false];
                     }
                 }
-                if (expect[ERROR].msg){
+                if (expect[ERROR].msg) {
                     valid = assert.checkErrorMsg(result, expect[ERROR].msg);
                     if (!valid) {
                         function getMessage(actual) {
@@ -125,6 +126,7 @@ function matchResults(result, test) {
 
                             return msg;
                         }
+
                         return [new AssertionError(expect[ERROR].msg, getMessage(result), ERROR_MSG_ERROR, ''), false];
                     }
                 }
@@ -138,15 +140,20 @@ function parseTest(test) {
     let {func, funcName, funcCall, params} = test;
     let args = [];
     let res;
+    let counterParams = 0;
     let paramFlag = true;
     let sourceParams = getParams(func);
     if (sourceParams.length > 0) {
         if (params && sourceParams) {
             for (let p in params) {
                 let i = sourceParams.indexOf(p);
-                if (i >= 0) args[i] = params[p];
+                if (i >= 0) {
+                    args[i] = params[p];
+                    counterParams += 1;
+                }
                 else return [new GrammarError('', ARGUMENTS_ERROR), res, 0];
             }
+            if (counterParams !== sourceParams.length) return [new GrammarError('', ARGUMENTS_ERROR), res, 0];
         } else if (!params && !sourceParams) {
             paramFlag = false;
         } else {
@@ -155,8 +162,7 @@ function parseTest(test) {
     }
     let start = performance.now();
     try {
-        if (paramFlag)
-        res = funcCall(...args);
+        if (paramFlag) res = funcCall(...args);
         else res = funcCall();
     } catch (e) {
         res = e;

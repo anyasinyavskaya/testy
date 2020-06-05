@@ -1,17 +1,12 @@
 const fs = require('fs');
-const test = require('./test');
+const integration = require('./integration');
 const unit = require('./unit');
 const TestError = require('./errors/testError');
 const parse = require('./parse');
 const statistics = require('./statistics');
+const variables = require('./variables');
 
-const title = '{title}';
-const server = '{server}';
-const config = '{config}';
-const stat = '{stat}';
-const commands = '{commands}';
-
-const testDir = server + '/test';
+const testDir = variables.server + '/test';
 const DOT = '.';
 const SLASH = '/';
 const INTEGRATION = 'integration';
@@ -21,7 +16,7 @@ const testFiles = [];
 const integrationTestDict = [];
 const unitTestDict = [];
 
-describe(title, () => {
+describe(variables.title, () => {
 
     const files = fs.readdirSync(testDir);
     files.forEach(f => {
@@ -33,8 +28,8 @@ describe(title, () => {
 
     testFiles.forEach(filename => {
         const sourceTests = require(testDir + '/' + filename);
-        let [error, unitTests, integrationTests] = parse(sourceTests, filename, config);
-        if (error !== null) throw new TestError(error.getMessages());
+        let [error, unitTests, integrationTests] = parse(sourceTests, filename, variables.config);
+        if (error) throw new TestError(error.getMessages());
         const name = filename.replace(/\.js$/, '');
         integrationTestDict[name] = integrationTests;
         unitTestDict[name] = unitTests;
@@ -49,7 +44,7 @@ describe(title, () => {
                     throw new TestError("TestSyntaxError", grammarError.getMessages());
 
                 } else if (testError) {
-                    throw new TestError("", testError.getMessages());
+                    throw new TestError("TestError", testError.getMessages());
 
                 }
             });
@@ -61,7 +56,7 @@ describe(title, () => {
         const integrationTests = integrationTestDict[filename];
         integrationTests.forEach(thisTest => {
             it('(' + filename + ') ' + thisTest.title, async () => {
-                const [error, testError, grammarError, time] = await test(thisTest, filename, integrationTestDict);
+                const [error, testError, grammarError, time] = await integration(thisTest, filename, integrationTestDict);
                 if (error) {
                     serverConnectedFlag = false;
                     throw error
@@ -71,7 +66,7 @@ describe(title, () => {
                     throw new TestError("TestSyntaxError", grammarError.getMessages());
 
                 } else if (testError) {
-                    throw new TestError("", testError.getMessages());
+                    throw new TestError("TestError", testError.getMessages());
 
                 }
 
@@ -80,15 +75,15 @@ describe(title, () => {
     }
 
     after(async () => {
-        if (commands.stat && serverConnectedFlag) {
+        if (variables.commands.stat && serverConnectedFlag) {
             for (let filename in integrationTestDict) {
                 const integrationTests = integrationTestDict[filename];
                 (async () => {
                     let res = {};
                     for (const thisTest of integrationTests) {
                         let results = [];
-                        for (let i = 0; i < commands.stat; i++) {
-                            let [e0, e1, e2, time] = await test(thisTest, filename, integrationTestDict);
+                        for (let i = 0; i < variables.commands.stat; i++) {
+                            let [e0, e1, e2, time] = await integration(thisTest, filename, integrationTestDict);
                             results.push(time);
                         }
                         let table = statistics.print(results);

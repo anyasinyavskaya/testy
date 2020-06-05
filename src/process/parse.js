@@ -8,13 +8,12 @@ const ARGUMENTS_ERROR = 'arguments';
 
 
 const SLASH = '/';
-const DOT = '.';
 const COLON = ':';
 const INTEGRATION = 'integration';
 const UNIT = 'unit';
 
 
-function getTitles(tests, filename) {
+function getTitles(tests) {
     let titles = [], urls = [], functions = [], defs = [];
     let i = 0;
 
@@ -23,12 +22,7 @@ function getTitles(tests, filename) {
             if (assert.isUrl(item)) {
                 urls[i] = item;
             }
-            else {
-                if (item.indexOf(DOT) >= 0)
-                    throw new Error(`Теста ${item} в ${filename}.js не существует "."`);
-
-                titles[i] = item;
-            }
+            else titles[i] = item;
         } else if (assert.isFunction(item)) {
             functions[i] = item;
         }
@@ -74,7 +68,7 @@ function getTests(testDefs) {
             return [new GrammarError('URL / Function', DECLARE_ERROR), unitTests, integrationTests]
         }
     }
-    return [null, unitTests, integrationTests];
+    return [false, unitTests, integrationTests];
 }
 
 
@@ -105,7 +99,7 @@ function getUrls(server, tests) {
 module.exports = (sourceTests, filename, server) => {
     const titles = getTitles(sourceTests, filename);
     let [error, unitTests, integrationTests] = getTests(titles);
-    if (error !== null) return [error, unitTests, integrationTests];
+    if (error) return [error, unitTests, integrationTests];
     integrationTests = getUrls(server, integrationTests);
     return [error, unitTests, integrationTests];
 };

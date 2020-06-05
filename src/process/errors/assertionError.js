@@ -1,6 +1,7 @@
 const TYPE_ERROR = 'type';
 const VALUE_ERROR = 'value';
 const SIZE_ERROR = 'size';
+const EACHTYPE_ERROR = 'each_type';
 const STATUS_ERROR = 'status';
 const STRUCTURE_ERROR = 'structure';
 const MAX_ERROR = 'max';
@@ -39,6 +40,12 @@ class AssertionError {
 				this.messages+= '     Ожидаемый размер ' + this.param + ' : ' + JSON.stringify(this.expected, null, 4) + '\n';
 				break;
 			}
+
+			case EACHTYPE_ERROR: {
+                this.messages+= 'Ожидаемый тип элементов массива ' + this.param + ' : ' + JSON.stringify(this.expected, null, 4) + '\n';
+                break;
+			}
+
 			case MAX_ERROR: {
 				this.messages+= 'Полученное значение ' + this.param + ' : ' + JSON.stringify(this.actual, null, 4) + '\n';
 				this.messages+= '     Ожидаемое значение ' + this.param + ' не должно превышать: ' +

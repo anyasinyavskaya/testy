@@ -38,7 +38,7 @@ function isError(obj){
 }
 
 function isUrl(str) {
-	return str.startsWith('/') || /^http(s):\/\//.test(str);
+	return isString(str) && (str.startsWith('/') || /^http(s):\/\//.test(str));
 }
 
 function isFunction(actual) {
@@ -63,21 +63,20 @@ function checkTypeByType(actual, expectType) {
 			isEqual = isNumber(actual);
 			break;
 		}
-		case BOOL_TYPE: {
-			isEqual = !!actual && actualType === BOOL_TYPE;
-			break;
-		}
 		case ARRAY_TYPE: {
-			isEqual = !!actual && (actual.constructor === Array ||
-				Object.prototype.toString.call(actual) === '[object Array]');
+			isEqual = isArray(actual);
 			break;
 		}
+        case BOOL_TYPE: {
+            isEqual = !!actual && actualType === BOOL_TYPE;
+            break;
+        }
 		case OBJECT_TYPE: {
 			isEqual = !!actual && actual.constructor === Object;
 			break;
 		}
 		case NULL_TYPE: {
-			isEqual = actual == null;
+			isEqual = actual === null;
 			break;
 		}
 
@@ -183,6 +182,8 @@ module.exports = {
 	isNumber,
 
 	isString,
+
+	isArray,
 
 	isError,
 
