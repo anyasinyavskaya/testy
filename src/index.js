@@ -8,11 +8,10 @@ const config = require('./config');
 
 const VAR_FILE = '/variables.json';
 
-const temp = path.resolve(__dirname, '../.temp');
-const source = path.resolve(__dirname, './process');
-
 const PATH_TO_MOCHA = "/mocha/bin/mocha";
 const NODE_MODULES = '/node_modules';
+const LIB_DIR = './process';
+const TEMP_DIR = '../.temp';
 const UTF = 'utf-8';
 const TITLE = 'title';
 const SERVER = 'server';
@@ -56,6 +55,8 @@ function makeVars(dir, statFlag, nodeModules) {
 }
 
 module.exports = () => {
+    const temp = path.resolve(__dirname, TEMP_DIR);
+    const source = path.resolve(__dirname, LIB_DIR);
     let statFlag;
     [mochaCommands, server] = environment.build(server, temp);
     const nodeModules = getNodeModules(server);

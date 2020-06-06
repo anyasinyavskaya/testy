@@ -1,13 +1,12 @@
+const {performance} = require('perf_hooks');
 const assert = require('./assert');
 const AssertionError = require("./errors/assertionError.js");
 const GrammarError = require("./errors/grammarError.js");
 const TestError = require('./errors/testError');
 const variables = require('./variables');
-
 const urlBuilder = require('./url');
 const request = require(variables.request);
 const _ = require(variables.lodash);
-const {performance} = require('perf_hooks');
 
 const DOT = '.';
 const SLASH = '/';
@@ -133,6 +132,7 @@ function getRes(str) {
         isResultJson = false;
         return str;
     }
+
 }
 
 function requestType(api) {
@@ -160,14 +160,16 @@ function parseTest(test) {
 
 
 function getReferencedTest(title, filename) {
+    let error;
     const tests = allTestsDict[filename];
     let index = tests.findIndex(item => item.title === title);
-    if (index < 0) throw new TestError("TestError", `Теста ${title} в ${filename}.js не существует`);
-    return tests[index];
+    if (index < 0) error = new TestError("TestError", `Теста ${title} в ${filename}.js не существует`);
+    return [error, tests[index]];
 }
 
 function titleToUrl(url, type, filename) {
-    const ref = getReferencedTest(url, filename);
+    const [error, ref] = getReferencedTest(url, filename);
+    if (error) return [error, "", ""];
     const {method, originalUrl, params} = ref;
     if (method) type = method.toLowerCase();
     else type = POST_METHOD;
@@ -175,28 +177,28 @@ function titleToUrl(url, type, filename) {
     if (!params) return [originalUrl, type];
     else url = urlBuilder.addParams(originalUrl.split('?')[0], urlBuilder.JSONToUrl(params));
 
-    return [url, type];
+    return [false, url, type];
 }
 
 function getUrlRes(url, filename) {
     let type = POST_METHOD;
 
-    if (!url.startsWith(SLASH))
-        [url, type] = titleToUrl(url, type, filename);
+    if (!url.startsWith(SLASH)) {
+        [errno, url, type] = titleToUrl(url, type, filename);
+    }
     else {
         const {protocol, host} = hostDef;
         url = urlBuilder.build(protocol, host, url);
     }
 
-    url = encodeURI(url);
+    if (!errno) url = encodeURI(url);
 
     return new Promise(resolve => {
+        if (errno) resolve([errno, false]);
         request[type]({url, jar: true}, (error, response, body) => {
-            if (error)
-                throw new Error(error);
-
+            if (error) resolve([error, false]);
             const result = getRes(body);
-            resolve(result);
+            resolve(false, result);
         })
     })
 
@@ -204,30 +206,41 @@ function getUrlRes(url, filename) {
 
 async function goUrls(urls, filename) {
     if (assert.isString(urls)) {
-        await getUrlRes(urls, filename);
+        [errno, res] = await getUrlRes(urls, filename);
+        if (errno)
+        return new Promise(resolve => {
+          resolve (errno);
+        });
     } else {
         for (const url of urls) {
-            await getUrlRes(url, filename);
+            [errno, res] = await getUrlRes(url, filename);
+            if (errno) return new Promise(resolve => {
+                resolve (errno);
+            });
         }
     }
+
+
 }
 
 module.exports = async (test, filename, testDict) => {
     allTestsDict = testDict;
     const [type, data] = parseTest(test);
     const {before, after, protocol, host} = test;
+    let errno;
     hostDef = {protocol, host};
 
     if (before) {
-        await goUrls(before, filename);
+         errno = await goUrls(before, filename);
     }
 
     return new Promise(resolve => {
+        if (errno) resolve([errno, false, false, 0]);
         let start = performance.now();
         request[type](data, async (error, response, body) => {
             let end = performance.now();
             let time = end - start;
-            let status;
+            let status, result;
             if (error) {
                 return resolve([error, false, false, 0]);
             }
@@ -235,10 +248,18 @@ module.exports = async (test, filename, testDict) => {
 
             if (response) status = response.statusCode;
 
-            const result = assert.isUrl(test.result) ? await getUrlRes(test.result, filename) : getRes(body);
+            if (assert.isUrl(test.result)) [error, result] = await getUrlRes(test.result, filename);
+            else result = getRes(body);
+
+            if (error) {
+                return resolve([error, false, false, 0]);
+            }
+
+            // const result = assert.isUrl(test.result) ? await getUrlRes(test.result, filename) : getRes(body);
 
             if (after) {
-                await goUrls(after, filename);
+                errno = await goUrls(after, filename);
+                if (errno) resolve([errno, false, false, 0]);
             }
             const [testError, GrammarError] = matchResults(result, status, test);
             resolve([null, testError, GrammarError, time]);

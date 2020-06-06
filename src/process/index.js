@@ -12,17 +12,23 @@ const SLASH = '/';
 const INTEGRATION = 'integration';
 const UNIT = 'unit';
 
+const SYNTAX_ERROR = "TestSyntaxError";
+const TEST_ERROR = "TestError";
+
 const testFiles = [];
 const integrationTestDict = [];
 const unitTestDict = [];
+
+function testName(filename, test, stat) {
+    return stat ? '(' + filename + ') ' + test.title : '(' + filename + ') ' + test.type + " " + test.title;
+}
 
 describe(variables.title, () => {
 
     const files = fs.readdirSync(testDir);
     files.forEach(f => {
         const filepath = testDir + SLASH + f;
-        if (f.startsWith(DOT) || !/\.js$/.test(f) || fs.statSync(filepath).isDirectory())
-            return;
+        if (f.startsWith(DOT) || !/\.js$/.test(f) || fs.statSync(filepath).isDirectory()) return;
         testFiles.push(f);
     });
 
@@ -37,14 +43,14 @@ describe(variables.title, () => {
 
     for (let filename in unitTestDict) {
         const unitTests = unitTestDict[filename];
-        unitTests.forEach(thisTest => {
-            it('(' + filename + ') ' + thisTest.title, async () => {
-                const [testError, grammarError] = await unit(thisTest, filename, unitTestDict);
+        unitTests.forEach(test => {
+            it(testName(filename, test), async () => {
+                const [testError, grammarError] = await unit(test, filename, unitTestDict);
                 if (grammarError) {
-                    throw new TestError("TestSyntaxError", grammarError.getMessages());
+                    throw new TestError(SYNTAX_ERROR, grammarError.getMessages());
 
                 } else if (testError) {
-                    throw new TestError("TestError", testError.getMessages());
+                    throw new TestError(TEST_ERROR, testError.getMessages());
 
                 }
             });
@@ -54,19 +60,20 @@ describe(variables.title, () => {
 
     for (let filename in integrationTestDict) {
         const integrationTests = integrationTestDict[filename];
-        integrationTests.forEach(thisTest => {
-            it('(' + filename + ') ' + thisTest.title, async () => {
-                const [error, testError, grammarError, time] = await integration(thisTest, filename, integrationTestDict);
+        integrationTests.forEach(test => {
+            it(testName(filename, test), async () => {
+                const [error, testError, grammarError] = await integration(test, filename, integrationTestDict);
                 if (error) {
                     serverConnectedFlag = false;
                     throw error
                 }
                 if (error !== null) throw new TestError('Получен пустой response');
                 if (grammarError) {
-                    throw new TestError("TestSyntaxError", grammarError.getMessages());
+                    test = false;
+                    throw new TestError(SYNTAX_ERROR, grammarError.getMessages());
 
                 } else if (testError) {
-                    throw new TestError("TestError", testError.getMessages());
+                    throw new TestError(TEST_ERROR, testError.getMessages());
 
                 }
 
@@ -80,14 +87,16 @@ describe(variables.title, () => {
                 const integrationTests = integrationTestDict[filename];
                 (async () => {
                     let res = {};
-                    for (const thisTest of integrationTests) {
-                        let results = [];
-                        for (let i = 0; i < variables.commands.stat; i++) {
-                            let [e0, e1, e2, time] = await integration(thisTest, filename, integrationTestDict);
-                            results.push(time);
+                    for (const test of integrationTests) {
+                        if (test) {
+                            let results = [];
+                            for (let i = 0; i < variables.commands.stat; i++) {
+                                let [e0, e1, e2, time] = await integration(test, filename, integrationTestDict);
+                                results.push(time);
+                            }
+                            let table = statistics.print(results);
+                            res[testName(filename, test, true)] = table;
                         }
-                        let table = statistics.print(results);
-                        res['(' + filename + ') ' + thisTest.title] = table;
                     }
                     console.log("Статистика производительности");
                     console.table(res);

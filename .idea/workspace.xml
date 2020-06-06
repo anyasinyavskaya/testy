@@ -2,17 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6dd3ff8e-edcd-40b6-a342-d316e8dbb21b" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/process/assert.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/process/assert.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/process/errors/assertionError.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/process/errors/assertionError.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/process/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/process/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/process/parse.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/process/parse.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/process/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/process/integration.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/process/unit.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/process/unit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/process/url.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/process/url.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/process/integration.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/process/integration.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/../testor-master/.tmp/" />
     <ignored path="$PROJECT_DIR$/../testor-master/temp/" />
@@ -29,30 +21,25 @@
       <file leaf-file-name="unit.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/process/unit.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3528">
+            <state relative-caret-position="365">
               <caret line="213" column="48" selection-start-line="213" selection-start-column="28" selection-end-line="213" selection-end-column="48" />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/environment/index.js">
+        <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-275">
-              <caret line="11" column="21" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
+            <state>
+              <caret lean-forward="true" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.js">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="assert.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/process/assert.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2517">
+            <state relative-caret-position="349">
               <caret line="75" column="18" lean-forward="true" selection-start-line="75" selection-start-column="18" selection-end-line="75" selection-end-column="18" />
             </state>
           </provider>
@@ -61,8 +48,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="57" column="24" lean-forward="true" selection-start-line="57" selection-start-column="24" selection-end-line="57" selection-end-column="24" />
+            <state relative-caret-position="760">
+              <caret line="45" column="18" lean-forward="true" selection-start-line="45" selection-start-column="18" selection-end-line="45" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -79,7 +66,7 @@
       <file leaf-file-name="parse.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/process/parse.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-59">
+            <state relative-caret-position="576">
               <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
             </state>
           </provider>
@@ -88,26 +75,26 @@
       <file leaf-file-name="url.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/process/url.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="360">
+              <caret line="15" column="6" lean-forward="true" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="integration.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="integration.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/process/integration.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="229" column="18" lean-forward="true" selection-start-line="229" selection-start-column="18" selection-end-line="229" selection-end-column="18" />
+            <state relative-caret-position="1331">
+              <caret line="229" column="13" selection-start-line="229" selection-start-column="13" selection-end-line="229" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/process/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="942">
-              <caret line="42" column="28" lean-forward="true" selection-start-line="42" selection-start-column="28" selection-end-line="42" selection-end-column="28" />
+            <state relative-caret-position="313">
+              <caret line="66" column="20" selection-start-line="66" selection-start-column="20" selection-end-line="66" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -130,7 +117,6 @@
       <find>console.</find>
       <find>chai</find>
       <find>configFlag</find>
-      <find>temp</find>
       <find>source</find>
       <find>hostDef</find>
       <find>SIZE_ERROR</find>
@@ -149,10 +135,11 @@
       <find>return [valid</find>
       <find>title</find>
       <find>server</find>
-      <find>config</find>
       <find>commands</find>
       <find>no t</find>
       <find>originalUrl</find>
+      <find>temp</find>
+      <find>config</find>
     </findStrings>
     <replaceStrings>
       <replace>Commands</replace>
@@ -211,12 +198,13 @@
         <option value="$PROJECT_DIR$/src/process/variables.json" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/process/test.js" />
-        <option value="$PROJECT_DIR$/src/index.js" />
-        <option value="$PROJECT_DIR$/src/process/url.js" />
-        <option value="$PROJECT_DIR$/src/process/index.js" />
         <option value="$PROJECT_DIR$/src/process/assert.js" />
         <option value="$PROJECT_DIR$/src/process/parse.js" />
         <option value="$PROJECT_DIR$/src/process/unit.js" />
+        <option value="$PROJECT_DIR$/src/process/url.js" />
+        <option value="$PROJECT_DIR$/src/index.js" />
+        <option value="$PROJECT_DIR$/src/process/index.js" />
+        <option value="$PROJECT_DIR$/src/process/integration.js" />
       </list>
     </option>
   </component>
@@ -259,6 +247,11 @@
             <path>
               <item name="testy" type="b2602c69:ProjectViewProjectNode" />
               <item name="testy" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="testy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="testy" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="testy" type="b2602c69:ProjectViewProjectNode" />
@@ -356,12 +349,12 @@
       <workItem from="1591123755154" duration="1942000" />
       <workItem from="1591265410592" duration="4241000" />
       <workItem from="1591274713670" duration="3078000" />
-      <workItem from="1591358609190" duration="18832000" />
+      <workItem from="1591358609190" duration="24257000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="260030000" />
+    <option name="totallyTimeSpent" value="265455000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="80" y="-5" width="1841" height="1086" extended-state="6" />
@@ -375,7 +368,7 @@
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.14393939" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.10064935" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -399,7 +392,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/examples/05-before-and-after-with-title/index.js" />
     <entry file="file://$PROJECT_DIR$/examples/05-before-and-after-with-title/test/cases.js" />
     <entry file="file://$PROJECT_DIR$/examples/05-before-and-after-with-title/biz/user/get.js" />
     <entry file="file://$PROJECT_DIR$/examples/05-before-and-after-with-title/biz/user/kill.js" />
@@ -463,13 +455,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/mocha/mocha.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="3077" column="9" selection-start-line="3077" selection-start-column="9" selection-end-line="3077" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/arkit.svg" />
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
@@ -524,30 +509,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/process/assert.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2517">
-          <caret line="75" column="18" lean-forward="true" selection-start-line="75" selection-start-column="18" selection-end-line="75" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/process/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="942">
-          <caret line="42" column="28" lean-forward="true" selection-start-line="42" selection-start-column="28" selection-end-line="42" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/process/url.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
@@ -555,31 +516,73 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.js">
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="57" column="24" lean-forward="true" selection-start-line="57" selection-start-column="24" selection-end-line="57" selection-end-column="24" />
+        <state relative-caret-position="257">
+          <caret line="13440" column="4" selection-start-line="13440" selection-start-column="4" selection-end-line="13440" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/process/url.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="15" column="6" lean-forward="true" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/process/parse.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-59">
+        <state relative-caret-position="576">
           <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/process/unit.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3528">
+        <state relative-caret-position="365">
           <caret line="213" column="48" selection-start-line="213" selection-start-column="28" selection-end-line="213" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/mocha/mocha.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="2782" column="9" selection-start-line="2782" selection-start-column="9" selection-end-line="2782" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/process/assert.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="75" column="18" lean-forward="true" selection-start-line="75" selection-start-column="18" selection-end-line="75" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret lean-forward="true" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/process/integration.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="229" column="18" lean-forward="true" selection-start-line="229" selection-start-column="18" selection-end-line="229" selection-end-column="18" />
+        <state relative-caret-position="1331">
+          <caret line="229" column="13" selection-start-line="229" selection-start-column="13" selection-end-line="229" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="760">
+          <caret line="45" column="18" lean-forward="true" selection-start-line="45" selection-start-column="18" selection-end-line="45" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/process/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="66" column="20" selection-start-line="66" selection-start-column="20" selection-end-line="66" selection-end-column="20" />
         </state>
       </provider>
     </entry>
