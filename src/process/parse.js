@@ -5,7 +5,7 @@ const GrammarError = require("./errors/grammarError.js");
 const STRUCTURE_ERROR = 'structure';
 const DECLARE_ERROR = 'declaration';
 const ARGUMENTS_ERROR = 'arguments';
-
+const TEST_ERROR = 'notest';
 
 const SLASH = '/';
 const COLON = ':';
@@ -17,26 +17,30 @@ function getTitles(tests) {
     let titles = [], urls = [], functions = [], defs = [];
     let i = 0;
 
-    tests.forEach(item => {
-        if (assert.isString(item)) {
-            if (assert.isUrl(item)) {
-                urls[i] = item;
-            }
-            else titles[i] = item;
-        } else if (assert.isFunction(item)) {
-            functions[i] = item;
-        }
-        else {
-            if (!titles[i]) {
-                if (urls[i]) titles[i] = urls[i];
-                else if (functions[i]) {
-                    titles[i] = functions[i].name;
+    try {
+        tests.forEach(item => {
+            if (assert.isString(item)) {
+                if (assert.isUrl(item)) {
+                    urls[i] = item;
                 }
+                else titles[i] = item;
+            } else if (assert.isFunction(item)) {
+                functions[i] = item;
             }
-            defs[i] = item;
-            i++;
-        }
-    });
+            else {
+                if (!titles[i]) {
+                    if (urls[i]) titles[i] = urls[i];
+                    else if (functions[i]) {
+                        titles[i] = functions[i].name;
+                    }
+                }
+                defs[i] = item;
+                i++;
+            }
+        });
+    } catch (e) {
+        return [titles, urls, functions, defs];
+    }
 
     return [titles, urls, functions, defs];
 }
@@ -50,6 +54,7 @@ function getTests(testDefs) {
         let test = {};
         if (_.isPlainObject(defs[i].result)) test = defs[i];
         else {
+            console.log(defs[i].result);
             return [new GrammarError('result', STRUCTURE_ERROR), unitTests, integrationTests];
         }
         test.title = titles[i];
@@ -97,7 +102,8 @@ function getUrls(server, tests) {
 }
 
 module.exports = (sourceTests, filename, server) => {
-    const titles = getTitles(sourceTests, filename);
+    let err, titles;
+    titles = getTitles(sourceTests, filename);
     let [error, unitTests, integrationTests] = getTests(titles);
     if (error) return [error, unitTests, integrationTests];
     integrationTests = getUrls(server, integrationTests);

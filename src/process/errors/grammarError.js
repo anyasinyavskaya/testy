@@ -2,6 +2,7 @@ const STRUCTURE_ERROR = 'structure';
 const ARGUMENTS_ERROR = 'arguments';
 const DECLARE_ERROR = 'declaration';
 const TYPEMISMATCH_ERROR = 'mismatch';
+const TEST_ERROR = 'notest';
 
 
 class GrammarError {
@@ -17,6 +18,10 @@ class GrammarError {
             }
             case DECLARE_ERROR: {
                 this.messages += 'В тесте должен быть объявлен запрос или функция\n';
+                break;
+            }
+            case TEST_ERROR: {
+                this.messages += 'Файл не содержит корректных тестов\n';
                 break;
             }
             case ARGUMENTS_ERROR: {

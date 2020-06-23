@@ -182,6 +182,7 @@ function titleToUrl(url, type, filename) {
 
 function getUrlRes(url, filename) {
     let type = POST_METHOD;
+    let errno = false;
 
     if (!url.startsWith(SLASH)) {
         [errno, url, type] = titleToUrl(url, type, filename);
@@ -198,7 +199,7 @@ function getUrlRes(url, filename) {
         request[type]({url, jar: true}, (error, response, body) => {
             if (error) resolve([error, false]);
             const result = getRes(body);
-            resolve(false, result);
+            resolve([false, result]);
         })
     })
 
@@ -227,7 +228,7 @@ module.exports = async (test, filename, testDict) => {
     allTestsDict = testDict;
     const [type, data] = parseTest(test);
     const {before, after, protocol, host} = test;
-    let errno;
+    let errno = false;
     hostDef = {protocol, host};
 
     if (before) {
@@ -251,11 +252,7 @@ module.exports = async (test, filename, testDict) => {
             if (assert.isUrl(test.result)) [error, result] = await getUrlRes(test.result, filename);
             else result = getRes(body);
 
-            if (error) {
-                return resolve([error, false, false, 0]);
-            }
-
-            // const result = assert.isUrl(test.result) ? await getUrlRes(test.result, filename) : getRes(body);
+            if (error) return resolve([error, false, false, 0]);
 
             if (after) {
                 errno = await goUrls(after, filename);
