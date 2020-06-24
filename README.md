@@ -1,7 +1,9 @@
 # testy
-Тестирование веб-приложений: изолированных функций и REST API. Для проверки работы пользоваться проектом веб-приложения **chatmodel** (https://github.com/anyasinyavskaya/chatmodel)
+Тестирование Node.js веб-приложений: изолированных функций и REST API. Для проверки работы пользоваться проектом веб-приложения **chatmodel** (https://github.com/anyasinyavskaya/chatmodel)
 
 ### Установка
+
+(ОС Linux Ubuntu)
 
 Необходимо добавить в `package.json` тестируемого приложения 
 ```
