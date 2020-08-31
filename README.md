@@ -1,5 +1,5 @@
 # testy
-Тестирование Node.js веб-приложений: изолированных функций и REST API. Для проверки работы пользоваться проектом веб-приложения **chatmodel** (https://github.com/anyasinyavskaya/chatmodel)
+Библиотека тестирования Node.js веб-приложений: изолированных функций и REST API. Для проверки работы пользоваться проектом веб-приложения **chatmodel** (https://github.com/anyasinyavskaya/chatmodel)
 
 ### Установка
 
